@@ -1,9 +1,18 @@
-- Database structuur uploaden
+Vereist:
 
-- Profielenpagina
+- Profielenoverzicht
 
-- Overzicht
+- Design
 
-- Dit bestand uitbreiden
+- Profielpagina uitbreiden
 
-- Ja zo'n beetje alles eigenlijk
+- Tags bewerken
+
+
+Later:
+
+- Andere landen dan Nederland/Belgie
+
+- Tag toevoegen aan profiel via POST in plaats van GET zodat een langere opmerking kan?
+
+- ???

@@ -12,7 +12,8 @@
 			exit;
 		
 		case "mijnprofiel":
-			die("Dit is nog in aanbouw.");
+			require("pages/mijnprofiel.php");
+			exit;
 		
 		case "inloggen":
 			require("pages/inloggen.php");
@@ -20,6 +21,14 @@
 		
 		case "activatie":
 			require("pages/activatie.php");
+			exit;
+		
+		case "tagtoevoegen":
+			require("pages/tagtoevoegen.php");
+			exit;
+		
+		case "ajax-zoektag":
+			require("pages/ajax-zoektag.php");
 			exit;
 		
 		case "":

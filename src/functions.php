@@ -6,6 +6,20 @@
 		return $password;
 	}
 	
+	function checkIngelogd() {
+		if (!isset($_SESSION["profielid"]) || empty($_SESSION["profielid"])) {
+			header("HTTP/1.1 302 Moved Temporarily");
+			header("Location: ./?page=inloggen");
+			exit;
+		}
+		
+		if ($_SESSION["profiel_geactiveerd"] != true) {
+			header("HTTP/1.1 302 Moved Temporarily");
+			header("Location: ./?page=activatie&profiel=" . intval($_SESSION["profielid"]));
+			exit;
+		}
+	}
+	
 	function file_get_ngmc($request) {
 		$sock = fsockopen("www.game-maker.nl", 80, $use, $less, 15)
 			or die("Socket error");

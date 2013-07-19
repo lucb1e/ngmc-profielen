@@ -3,7 +3,7 @@
 		exit; // direct object reference
 	
 	if (isset($_POST["gebruikersnaam"])) {
-		$result = $db->query("SELECT profielverificatie,  FROM users WHERE gebruikersnaam = '" . $db->escape_string($_POST["gebruikersnaam"]) . "' AND wachtwoord = '" . myhash($_POST["wachtwoord"]) . "'")
+		$result = $db->query("SELECT profielverificatie, userid FROM users WHERE gebruikersnaam = '" . $db->escape_string($_POST["gebruikersnaam"]) . "' AND wachtwoord = '" . myhash($_POST["wachtwoord"]) . "'")
 			or die("Database error 571390.");
 		
 		if ($result->num_rows == 0) {

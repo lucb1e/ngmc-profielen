@@ -81,7 +81,8 @@
 			if ($geboortejaar == -1)
 				$geboorteint = -1;
 			else
-				$geboorteint = strtotime($geboortejaar . "-" . $geboortemaand . "-" . $geboortedag);
+				// geboortemaand is 0..11, maar PHP wil 1 als januari en 12 als december
+				$geboorteint = strtotime($geboortejaar . "-" . ($geboortemaand + 1) . "-" . $geboortedag);
 			
 			$result = $db->query("SELECT userid FROM users WHERE userid = " . $userid)
 				or die("Database error 573818");
