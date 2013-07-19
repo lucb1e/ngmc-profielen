@@ -1,0 +1,250 @@
+<?php 
+	if (!isset($db))
+		exit;
+	
+	session_destroy();
+	unset($_SESSION);
+	
+	if (isset($_POST["gebruikersnaam"])) {
+		$ok = true;
+		
+		/*$userid = intval(
+			trim(
+			str_replace("/sa,statPanel", "",
+			str_replace("http://www.game-maker.nl/forums/action,profile/", "",
+			str_replace("u,", "",
+			$_POST["userid"]
+			)))));*/
+		
+		$userid = profielIdBijGebruikersnaam($_POST["gebruikersnaam"]);
+		
+		$geboortejaar = intval($_POST["geboortejaar"]);
+		$geboortedag = intval($_POST["geboortedag"]);
+		$geboortemaand = intval($_POST["geboortemaand"]);
+		
+		if ($geboortejaar != $_POST["geboortejaar"] || $geboortejaar < 1 || $geboortejaar >= date("Y")) {
+			$geboortejaar = -1; // geboortejaar is standaard "19.." en is optioneel.
+		}
+		
+		if ($ok && $_POST["geboortedag"] != $geboortedag || $geboortedag > 31 || $geboortedag < 1) {
+			$message = "Ongeldige geboortedag.";
+			$ok = false;
+		}
+		
+		if ($ok && $_POST["geboortemaand"] != $geboortemaand || $geboortemaand < 0 || $geboortemaand > 11) {
+			$message = "Hackzor. Knap hoor :)"; // Het is een dropdown menu, iemand moet zich al moeite doen om dit voor elkaar te krijgen.
+			$ok = false;
+		}
+		
+		if ($ok && strlen($_POST["wachtwoord"]) < 5 || strlen($_POST["wachtwoord"]) > 5000) {
+			$message = "Wachtwoord ongeldig! Je wachtwoord mag niet korter zijn dan 5 tekens (of langer dan 5000).";
+			$ok = false;
+		}
+		
+		/*if ($ok && $userid != $_POST["userid"] || $userid > 1000 * 1000 || $userid < 1) {
+			$ok = false;
+			$message = "Ongeldig gebruikersid.";
+		}*/
+		
+		if ($ok) {
+			$result = $db->query("SELECT userid
+				FROM users
+				WHERE (gebruikersnaam = '" . $db->escape_string($_POST["gebruikersnaam"]) . "'
+					OR userid = " . intval($_POST["userid"]) . ")
+					AND profielverificatie = ''")
+				or die("Database error 1976384");
+			
+			if ($result->num_rows !== 0) {
+				$message = "Deze gebruikersnaam is al geregistreerd!";
+				$ok = false;
+			}
+		}
+		
+		if ($ok) {
+			$wachtwoord = myhash($_POST["wachtwoord"]);
+			if (strpos($_POST["locatie"], ",") === false) {
+				$locatiex = -1;
+				$locatiey = -1;
+			}
+			else {
+				$locatie = explode(",", $_POST["locatie"]);
+				if ($locatie[0] != intval($locatie[0]) || $locatie[1] != intval($locatie[1])) {
+					$locatiex = -1;
+					$locatiey = -1;
+				}
+				else {
+					$locatiex = $locatie[0];
+					$locatiey = $locatie[1];
+				}
+			}
+			
+			if ($geboortejaar == -1)
+				$geboorteint = -1;
+			else
+				$geboorteint = strtotime($geboortejaar . "-" . $geboortemaand . "-" . $geboortedag);
+			
+			$result = $db->query("SELECT userid FROM users WHERE userid = " . $userid)
+				or die("Database error 573818");
+			
+			if ($result->num_rows > 0) {
+				$db->query("
+					UPDATE
+						users
+					SET 
+						wachtwoord = '" . $wachtwoord . "',
+						naam = '" . $db->escape_string($_POST["naam"]) . "',
+						locatiex = " . $locatiex . ",
+						locatiey = " . $locatiey . ",
+						geboortedatum = " . $geboorteint . ",
+						profielverificatie = '" . substr(myhash($userid . "|" . rand()), 0, 7) . "'
+					WHERE
+						userid = " . $userid)
+					or die("Database error 1478293");
+			}
+			else {
+				$db->query("
+					INSERT INTO users
+						(userid, gebruikersnaam, wachtwoord, naam, locatiex, locatiey, geboortedatum, profielverificatie)
+					VALUES (" . $userid . "
+						, '" . $db->escape_string($_POST["gebruikersnaam"]) . "'
+						, '" . $wachtwoord . "'
+						, '" . $db->escape_string($_POST["naam"]) . "'
+						, " . $locatiex . "
+						, " . $locatiey . "
+						, " . $geboorteint . "
+						, '" . substr(myhash($userid . "|" . rand()), 0, 7) . "')")
+					or die("Database error 1903293");
+			}
+			
+			$_SESSION["profiel_geactiveerd"] = false;
+			$_SESSION["profielid"] = $userid;
+			
+			header("HTTP/1.1 302 Moved Temporarily");
+			header("Location: ./?page=activatie&profiel=" . $userid);
+			exit;
+		}
+	}
+	
+	include("header.php");
+	
+	if (!empty($message))
+		echo $message . "<br/><br/>";
+?>
+<form method="post" action="./?page=nieuwprofiel">
+	<table>
+		<tr><td><b>Gebruikersnaam:</b></td><td><input name=gebruikersnaam /></td></tr>
+		<tr><td><b>Echte naam:</b></td><td><input name=naam /> (optioneel)</td></td></tr>
+		<!--<tr><td><b>Gebruikersid:</b></td><td><input name=userid size=5 /></td></tr>
+		<tr>
+			<td colspan=2 >Je gebruikersid kun je vinden door naar <a href='http://www.game-maker.nl/forums/action,profile' target='_blank'>deze pagina te gaan</a>
+			en dan links op statistieken te klikken. In de adresbalk staat iets als "u,12345", waar 12345 jouw gebruikersid is.<br/>
+			<br/></td>
+		</tr>-->
+		<tr><td><b>Wachtwoord:</b></td><td><input type=password name=wachtwoord /></td></tr>
+		<tr><td valign=top ><b>Geboortedatum</b></td>
+			<td><input name=geboortedag size=2 value=1 />
+				<select name=geboordemaand >
+					<option value=0 >Januari</option>
+					<option value=1 >Februari</option>
+					<option value=2 >Maart</option>
+					<option value=3 >April</option>
+					<option value=4 >Mei</option>
+					<option value=5 >Juni</option>
+					<option value=6 >Juli</option>
+					<option value=7 >Augustus</option>
+					<option value=8 >September</option>
+					<option value=9 >Oktober</option>
+					<option value=10 >November</option>
+					<option value=11 >December</option>
+				</select>
+				<input name=geboortejaar size=4 value="19.." onfocus="value.indexOf('.')==2 ? value = '' : '';" /><br/>
+				Optioneel, maar vul wel je geboortejaar in, dan hebben we enig idee of je 10 of 28 bent!<br/><br/>
+			</td>
+		</tr>
+		<tr>
+			<td valign=top >
+				<br/>
+				<b>Locatie</b><br/>
+				<br/>
+				Klik op de kaart!<br/>
+				De co&ouml;rdinaten waar je geklikt hebt worden opgeslagen. <noscript><font color=red >Oh je hebt NoScript: Wat hiervoor stond was een leugen. Je hebt Javascript uitgeschakeld dus dat werkt niet.</font></noscript>
+			</td>
+			<td>
+				<img src="res/images/benelux.png" id=kaart />
+				<input type=hidden name=locatie id=locatie />
+				<div id="locatie-output"><a href='javascript: nietInNederland();'>Niet in Nederland/Belgi&euml;</a></div>
+			</td>
+		</tr>
+		<tr><td colspan=2>&nbsp;</td></tr>
+		<tr><td colspan=2>Let op: Je gebruikersnaam moet hetzelfde zijn als op www.game-maker.nl!</td></tr>
+		<tr><td colspan=2>&nbsp;</td></tr>
+		<tr><td><input type=submit value=Registreren /></td><td></td></tr>
+	</table>
+	
+</form>
+
+<?php 
+	include("footer.php");
+?>
+
+<script>
+	var image_kaart = document.getElementById("kaart");
+	var input_locatie = document.getElementById("locatie");
+	var locatie_div = document.getElementById("locatie-output");
+	
+	image_kaart.onclick = function(ev) {
+		var coords = GetCoordinates(ev);
+		input_locatie.value = coords[0] + "," + coords[1];
+		
+		locatie_div.innerHTML = "Opgeslagen! (" + input_locatie.value + ")";
+		
+		if (coords[0] < 80 && coords[1] < 120)
+			confirm("Op dat boorplatform in de noordzee bedoel je? :D");
+	};
+	
+	function nietInNederland() {
+		alert("Andere landen is op dit moment nog niet mogelijk. Als je hierover gaat klagen komt de mogelijkheid er zeker in! :D");
+	}
+	
+// Blatant rip from http://www.chestysoft.com/imagefile/javascript/get-coordinates.asp
+function FindPosition(oElement)
+{
+  if(typeof( oElement.offsetParent ) != "undefined")
+  {
+    for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
+    {
+      posX += oElement.offsetLeft;
+      posY += oElement.offsetTop;
+    }
+      return [ posX, posY ];
+    }
+    else
+    {
+      return [ oElement.x, oElement.y ];
+    }
+}
+
+function GetCoordinates(e)
+{
+  var PosX = 0;
+  var PosY = 0;
+  var ImgPos;
+  ImgPos = FindPosition(image_kaart);
+  if (!e) var e = window.event;
+  if (e.pageX || e.pageY)
+  {
+    PosX = e.pageX;
+    PosY = e.pageY;
+  }
+  else if (e.clientX || e.clientY)
+    {
+      PosX = e.clientX + document.body.scrollLeft
+        + document.documentElement.scrollLeft;
+      PosY = e.clientY + document.body.scrollTop
+        + document.documentElement.scrollTop;
+    }
+  PosX = PosX - ImgPos[0];
+  PosY = PosY - ImgPos[1];
+  return [ PosX, PosY ];
+}
+</script>
