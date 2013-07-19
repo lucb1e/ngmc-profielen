@@ -11,8 +11,12 @@ Vereist:
 
 Later:
 
+- Foutmeldingen in tagtoevoegen.php op de juiste plek zetten
+
 - Andere landen dan Nederland/Belgie
 
 - Tag toevoegen aan profiel via POST in plaats van GET zodat een langere opmerking kan?
+
+- URLs in het 'over jezelf' veld?
 
 - ???
