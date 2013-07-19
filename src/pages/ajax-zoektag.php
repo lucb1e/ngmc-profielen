@@ -2,7 +2,7 @@
 	if (!isset($db))
 		exit;
 	
-	if (preg_match("/^[a-z\\-]*$/i", $_GET["tag"]) != 1)
+	if (preg_match("/^[a-z0-9.\\-]*$/i", $_GET["tag"]) != 1)
 			die("Error 672142984");
 	
 	$result = $db->query("SELECT t.naam, COUNT(ut.id) AS 'theCount'

@@ -5,13 +5,11 @@
 	checkIngelogd();
 	
 	if (isset($_GET["tag"])) {
-		if (preg_match("/^[a-z\\-]*$/i", $_GET["tag"]) != 1)
+		if (preg_match("/^[a-z0-9.\\-]*$/i", $_GET["tag"]) != 1)
 			die("Error 672142983");
 		
 		$result = $db->query("SELECT id FROM tags WHERE naam = '" . $db->escape_string($_GET["tag"]) . "'")
 			or die("Database error 889879");
-		
-		$ok = true;
 		
 		if ($result->num_rows == 0) {
 			$result = $db->query("SELECT id FROM tags WHERE door_userid = " . intval($_SESSION["profielid"]) . " AND tijd_toegevoegd > " . (time() - (3600 * 24 * 60)))
@@ -19,7 +17,6 @@
 			
 			if ($result->num_rows > 15) { // Dit limiet moet later misschien worden verlaagd. Het is nu redelijk ruim omdat de meeste tags nog niet bestaan in het begin.
 				echo "Je hebt al een hoop nieuwe tags toegevoegd! Misschien even buiten gaan spelen?";
-				$ok = false;
 			}
 			else {
 				$db->query("INSERT INTO tags (naam, door_userid, tijd_toegevoegd)
@@ -36,14 +33,22 @@
 			}
 		}
 		else {
-			$result = $result->fetch_row();
-			$db->query("INSERT INTO users_tags (userid, tagid, opmerking)
-				VALUES (" . intval($_SESSION["profielid"]) . ", " . $result[0] . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
-				or die("Database error 20473841");
+			$tagid = $result->fetch_row();
+			$result = $db->query("SELECT id FROM users_tags WHERE userid = " . intval($_SESSION["profielid"]) . " AND tagid = " . $tagid[0])
+				or die("Database error 1058921");
 			
-			header("HTTP/1.1 302 Moved Temporarily");
-			header("Location: ./?page=mijnprofiel");
-			exit;
+			if ($result->num_rows > 0) {
+				echo "Je hebt deze tag al!";
+			}
+			else {
+				$db->query("INSERT INTO users_tags (userid, tagid, opmerking)
+					VALUES (" . intval($_SESSION["profielid"]) . ", " . $result[0] . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
+					or die("Database error 20473841");
+				
+				header("HTTP/1.1 302 Moved Temporarily");
+				header("Location: ./?page=mijnprofiel");
+				exit;
+			}
 		}
 	}
 	
@@ -88,6 +93,8 @@ Eventuele opmerking toevoegen:<br/>
 	
 	function kiesTag(naam) {
 		naam_input.value = naam;
+		
+		gevonden_tags.innerHTML = "";
 	}
 	
 	function toevoegen() {
@@ -98,7 +105,7 @@ Eventuele opmerking toevoegen:<br/>
 	}
 	
 	function testGeldigeNaam() {
-		if (!(/^[a-z\-]*$/i.test(naam_input.value))) {
+		if (!(/^[a-z0-9.\-]*$/i.test(naam_input.value))) {
 			gevonden_tags.innerHTML = "Tags mogen alleen letters en koppeltekens (-) bevatten!";
 			return false;
 		}
@@ -122,7 +129,7 @@ Eventuele opmerking toevoegen:<br/>
 			var tags = eval(data);
 			var html = "";
 			for (var i in tags) {
-				html += "<a href='javascript: kiesTag(\"" + tags[i]["naam"] + "\");'>" + tags[i]["naam"] + " (" + tags[i]["count"] + "x)</a></div>";
+				html += "<span class='tag'><a href='javascript: kiesTag(\"" + tags[i]["naam"] + "\");'>" + tags[i]["naam"] + " (" + tags[i]["count"] + "x)</a></span><br/>";
 			}
 			gevonden_tags.innerHTML = html;
 		}, seqnum++);

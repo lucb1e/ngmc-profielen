@@ -14,6 +14,7 @@
 			
 			if ($row[0] != "") { // De verificatiecode is nog niet leeg; het profiel is nog niet geactiveerd!
 				$_SESSION["profiel_geactiveerd"] = false;
+				$_SESSION["csrf"] = myhash(rand() . myhash(myhash($_POST["wachtwoord"]) . rand()));
 				$_SESSION["profielid"] = $row[1];
 				
 				header("HTTP/1.1 302 Moved Temporarily");
@@ -22,6 +23,7 @@
 			}
 			else {
 				$_SESSION["profiel_geactiveerd"] = true;
+				$_SESSION["csrf"] = myhash(rand() . myhash(myhash($_POST["wachtwoord"]) . rand()));
 				$_SESSION["profielid"] = $row[1];
 				
 				header("HTTP/1.1 302 Moved Temporarily");
@@ -47,4 +49,4 @@
 		<tr><td><input type=submit value=Inloggen /></td><td></td></tr>
 	</table>
 </form>
-Een 'wachtwoord vergeten' functie komt binnenkort.
+Wachtwoord vergeten? Stuur een PB naar <a href='http://www.game-maker.nl/forums/action,pm/sa,send/u,4823'>lucb1e</a>.

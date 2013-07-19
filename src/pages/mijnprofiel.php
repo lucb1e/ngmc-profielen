@@ -10,8 +10,21 @@
 	}
 	
 	if (isset($_POST["bio"]) && $_SESSION["csrf"] == $_POST["csrf"]) {
-		// TODO: Verwerk openbaarprofiel en bio
+		if ($_POST["openbaarprofiel"] == 1 || $_POST["openbaarprofiel"] == 0) {
+			$db->query("UPDATE users SET bio = '" . $db->escape_string($_POST["bio"]) . "', profiel_publiek = '" . intval($_POST["openbaarprofiel"]) . "' WHERE userid = " . intval($_SESSION["profielid"]))
+				or die("Database error 1428592");
+			
+			$message = "<font color=green >Opgeslagen!</font>";
+		}
 	}
+	
+	$result = $db->query("SELECT profiel_publiek, bio FROM users WHERE userid = " . intval($_SESSION["profielid"]))
+		or die("Database error 6510924");
+	
+	$row = $result->fetch_row();
+	$selected_openbaar = $row[0] == 1 ? "selected" : "";
+	$selected_nietopenbaar = $row[0] == 0 ? "selected" : "";
+	$bio = htmlspecialchars($row[1]);
 	
 	$result = $db->query("
 		SELECT ut.opmerking, t.naam, ut.id
@@ -29,6 +42,11 @@
 	include("header.php");
 ?>
 <h3>Mijn profiel</h3>
+
+<?php 
+	if (isset($message))
+		echo $message . "<br/><br/>";
+?>
 
 <form method="post" action="./?page=mijnprofiel">
 	<input type=hidden name=csrf value='<?php echo $_SESSION["csrf"];?>' />
