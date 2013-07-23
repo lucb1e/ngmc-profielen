@@ -49,7 +49,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `profiel_publiek` tinyint(4) NOT NULL DEFAULT '1',
   `bio` mediumtext,
   PRIMARY KEY (`userid`),
-  UNIQUE KEY `profielverificatie` (`profielverificatie`),
   UNIQUE KEY `gebruikersnaam` (`gebruikersnaam`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

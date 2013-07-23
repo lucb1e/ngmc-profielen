@@ -6,8 +6,9 @@ Vereist:
 
 - Profielpagina uitbreiden
 
-- Tags bewerken
+- waarschuwing wanneer profiel aangepast en zonder op te slaan tag toevoegen
 
+- Tags bewerken
 
 Later:
 

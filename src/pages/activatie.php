@@ -2,8 +2,11 @@
 	if (!isset($db))
 		exit;
 	
-	if ($_SESSION["profiel_geactiveerd"] == true)
-		die("Jouw profiel is al geactiveerd!");
+	if ($_SESSION["profiel_geactiveerd"] == true) {
+		#die("Jouw profiel is al geactiveerd!");
+		header("HTTP/1.1 302 Moved Temporarily");
+		header("Location: ./?page=mijnprofiel&activatie-succesvol");
+	}
 	
 	$result = $db->query("SELECT profielverificatie FROM users WHERE userid = " . intval($_GET["profiel"]))
 		or die("Database error 7011023");

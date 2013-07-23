@@ -4,7 +4,7 @@
 	
 	checkIngelogd();
 	
-	if (isset($_GET["tag"])) {
+	if (!empty($_GET["tag"])) {
 		if (preg_match("/^[a-z0-9.\\-]*$/i", $_GET["tag"]) != 1)
 			die("Error 672142983");
 		
@@ -42,7 +42,7 @@
 			}
 			else {
 				$db->query("INSERT INTO users_tags (userid, tagid, opmerking)
-					VALUES (" . intval($_SESSION["profielid"]) . ", " . $result[0] . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
+					VALUES (" . intval($_SESSION["profielid"]) . ", " . $tagid . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
 					or die("Database error 20473841");
 				
 				header("HTTP/1.1 302 Moved Temporarily");

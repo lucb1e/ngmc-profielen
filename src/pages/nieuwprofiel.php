@@ -26,18 +26,18 @@
 			$geboortejaar = -1; // geboortejaar is standaard "19.." en is optioneel.
 		}
 		
-		if ($ok && $_POST["geboortedag"] != $geboortedag || $geboortedag > 31 || $geboortedag < 1) {
+		if ($ok && ($_POST["geboortedag"] != $geboortedag || $geboortedag > 31 || $geboortedag < 1)) {
 			$message = "Ongeldige geboortedag.";
 			$ok = false;
 		}
 		
-		if ($ok && $_POST["geboortemaand"] != $geboortemaand || $geboortemaand < 0 || $geboortemaand > 11) {
+		if ($ok && ($_POST["geboortemaand"] != $geboortemaand || $geboortemaand < 0 || $geboortemaand > 11)) {
 			$message = "Hackzor. Knap hoor :)"; // Het is een dropdown menu, iemand moet zich al moeite doen om dit voor elkaar te krijgen.
 			$ok = false;
 		}
 		
-		if ($ok && strlen($_POST["wachtwoord"]) < 5 || strlen($_POST["wachtwoord"]) > 5000) {
-			$message = "Wachtwoord ongeldig! Je wachtwoord mag niet korter zijn dan 5 tekens (of langer dan 5000).";
+		if ($ok && (strlen($_POST["wachtwoord"]) < 5 || strlen($_POST["wachtwoord"]) > 9000)) {
+			$message = "Wachtwoord ongeldig! Je wachtwoord mag niet korter zijn dan 5 tekens (of langer dan 9000).";
 			$ok = false;
 		}
 		
@@ -144,7 +144,7 @@
 		<tr><td><b>Wachtwoord:</b></td><td><input type=password name=wachtwoord /></td></tr>
 		<tr><td valign=top ><b>Geboortedatum</b></td>
 			<td><input name=geboortedag size=2 value=1 />
-				<select name=geboordemaand >
+				<select name=geboortemaand >
 					<option value=0 >Januari</option>
 					<option value=1 >Februari</option>
 					<option value=2 >Maart</option>
@@ -188,6 +188,7 @@
 	include("footer.php");
 ?>
 
+<script src="res/js/kaartlocatie.js"></script>
 <script>
 	var image_kaart = document.getElementById("kaart");
 	var input_locatie = document.getElementById("locatie");
@@ -206,46 +207,4 @@
 	function nietInNederland() {
 		alert("Andere landen is op dit moment nog niet mogelijk. Als je hierover gaat klagen komt de mogelijkheid er zeker in! :D");
 	}
-	
-// Blatant rip from http://www.chestysoft.com/imagefile/javascript/get-coordinates.asp
-function FindPosition(oElement)
-{
-  if(typeof( oElement.offsetParent ) != "undefined")
-  {
-    for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
-    {
-      posX += oElement.offsetLeft;
-      posY += oElement.offsetTop;
-    }
-      return [ posX, posY ];
-    }
-    else
-    {
-      return [ oElement.x, oElement.y ];
-    }
-}
-
-function GetCoordinates(e)
-{
-  var PosX = 0;
-  var PosY = 0;
-  var ImgPos;
-  ImgPos = FindPosition(image_kaart);
-  if (!e) var e = window.event;
-  if (e.pageX || e.pageY)
-  {
-    PosX = e.pageX;
-    PosY = e.pageY;
-  }
-  else if (e.clientX || e.clientY)
-    {
-      PosX = e.clientX + document.body.scrollLeft
-        + document.documentElement.scrollLeft;
-      PosY = e.clientY + document.body.scrollTop
-        + document.documentElement.scrollTop;
-    }
-  PosX = PosX - ImgPos[0];
-  PosY = PosY - ImgPos[1];
-  return [ PosX, PosY ];
-}
 </script>
