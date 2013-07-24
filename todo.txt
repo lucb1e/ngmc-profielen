@@ -1,6 +1,6 @@
 Vereist:
 
-- Profielenoverzicht
+- Detailpagina voor profielen
 
 - Design
 
