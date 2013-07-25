@@ -14,7 +14,9 @@ Vereist:
 
 - Design
 
-- Detailpagina voor profielen uitbreiden
+- Detailpagina voor profielen uitbreiden.
+
+- Pagina's moeten een titel krijgen.
 
 Later:
 
