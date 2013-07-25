@@ -10,7 +10,7 @@
 			. "<a href='?page=uitloggen&csrf=" . $_SESSION["csrf"] . "'>Uitloggen</a>";
 	else 
 		$menu .= "<a href='?page=inloggen'>Inloggen</a> - "
-			. "<a href='?page=registreren'>Registreren</a>";
+			. "<a href='?page=nieuwprofiel'>Registreren</a>";
 	
 ?><!DOCTYPE html>
 <html>
