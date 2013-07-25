@@ -1,14 +1,20 @@
 Vereist:
 
-- Detailpagina voor profielen
+- Honoreren of een profiel publiekelijk te bekijken is.
+  Indien niet, toon in de lijst enkel username, link naar NGMC profiel, en tags.
+  Bij erop klikken, vertel de gebruiker dat hij moet inloggen.
+
+- Profielenoverzicht afmaken
+
+- Profiel-aanpassen pagina uitbreiden
+
+- Waarschuwing wanneer profiel aangepast en zonder op te slaan tag toevoegen
+
+- Tags bewerken (opmerking erbij bewerken)
 
 - Design
 
-- Profielpagina uitbreiden
-
-- waarschuwing wanneer profiel aangepast en zonder op te slaan tag toevoegen
-
-- Tags bewerken
+- Detailpagina voor profielen uitbreiden
 
 Later:
 
@@ -16,8 +22,8 @@ Later:
 
 - Andere landen dan Nederland/Belgie
 
-- Tag toevoegen aan profiel via POST in plaats van GET zodat een langere opmerking kan?
+- Tag toevoegen aan profiel via POST in plaats van GET zodat een langere opmerking kan en zodat de csrf token niet in de URL staat.
 
-- URLs in het 'over jezelf' veld?
+- URLs in het 'over jezelf' veld parsen
 
-- ???
+- Nog suggesties?
