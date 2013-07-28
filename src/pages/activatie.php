@@ -57,3 +57,4 @@ Dat is alles! Je hoeft je bestaande onderschrift niet weg te halen, alleen de co
 Staat de code erin?<br/>
 <br/>
 <a href="./?page=activatie&profiel=<?php echo intval($_GET["profiel"]);?>&check=1">Controleren!</a>
+

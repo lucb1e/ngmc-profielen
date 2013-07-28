@@ -25,3 +25,4 @@
 			<div style="width: 350px;">
 				<h2><a href='./' style='color: #000; text-decoration: none;'>NGMC profielen</a></h2>
 			</div>
+

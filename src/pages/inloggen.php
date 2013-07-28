@@ -50,3 +50,4 @@
 	</table>
 </form>
 Wachtwoord vergeten? Stuur een PB naar <a href='http://www.game-maker.nl/forums/action,pm/sa,send/u,4823'>lucb1e</a>.
+

@@ -85,4 +85,4 @@ Jouw tags:
 
 <?php
 	include("footer.php");
-?>
+

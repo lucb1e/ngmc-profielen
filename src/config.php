@@ -15,3 +15,4 @@
 	
 	// 173px op kaart zijn 201km in het echt
 	$kaart_px_to_km = (201 / 173);
+

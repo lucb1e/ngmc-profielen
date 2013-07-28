@@ -17,3 +17,4 @@ Je kunt hier profielen bekijken van mensen om teamgenoten te zoeken, en natuurli
 
 <?php
 	include("footer.php");
+
