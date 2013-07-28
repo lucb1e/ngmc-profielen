@@ -33,7 +33,7 @@
 		WHERE ut.userid = " . intval($_SESSION["profielid"]))
 		or die("Database error 8920143");
 	
-	$tags = [];
+	$tags = array();
 	
 	while ($row = $result->fetch_row()) {
 		$tags[] = array("opmerking" => $row[0], "naam" => $row[1], "id" => $row[2]);
