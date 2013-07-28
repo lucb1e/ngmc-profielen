@@ -2,6 +2,12 @@
 	if (!isset($db))
 		exit; // direct object reference
 	
+	if(isIngelogd()) {
+		header("HTTP/1.1 302 Moved Temporarily");
+		header("Location: ./?page=mijnprofiel");
+		exit;
+	}
+	
 	if (isset($_POST["gebruikersnaam"])) {
 		$result = $db->query("SELECT profielverificatie, userid FROM users WHERE gebruikersnaam = '" . $db->escape_string($_POST["gebruikersnaam"]) . "' AND wachtwoord = '" . myhash($_POST["wachtwoord"]) . "'")
 			or die("Database error 571390.");

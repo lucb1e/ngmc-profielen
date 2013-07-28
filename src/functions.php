@@ -7,7 +7,7 @@
 	}
 	
 	function checkIngelogd() {
-		if (!isset($_SESSION["profielid"]) || empty($_SESSION["profielid"])) {
+		if (!isIngelogd()) {
 			header("HTTP/1.1 302 Moved Temporarily");
 			header("Location: ./?page=inloggen");
 			exit;
@@ -18,6 +18,10 @@
 			header("Location: ./?page=activatie&profiel=" . intval($_SESSION["profielid"]));
 			exit;
 		}
+	}
+	
+	function isIngelogd() {
+		return (isset($_SESSION["profielid"]) && !empty($_SESSION["profielid"]));
 	}
 	
 	function file_get_ngmc($request) {

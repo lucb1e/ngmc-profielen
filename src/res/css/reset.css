@@ -1,0 +1,239 @@
+/**
+ * Wouter's reset CSS
+ * http://www.woutervdb.com/
+ *
+ * This file is based on (but not a copy of) the functionality of normalize.css, and corrects some
+ * HTML5 bugs and glitches. It also resets some styles to a completely new style (like forms).
+ *
+ * Commited by Wouter himself to the Github repository. Contact me if you don't trust
+ * this comment ;-).
+ */
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section, summary {
+	display: block;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section, summary,
+p, b, i, em, strong, h1, h2, h3, h4, h5, h6, div, body, html, ul, li, img, select, input,
+button, textarea, label {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+p:first-child {
+	margin-top: 0;
+}
+audio, canvas, video {
+	display: inline-block;
+}
+audio:not([controls]) {
+	display: none; height: 0;
+}
+[hidden] {
+	display: none;
+}
+html, body {
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+body {
+	margin: 0;
+	font-family: sans-serif;
+	font-size: 100%;
+	overflow-y: scroll;
+}
+body.override-overflow {
+	overflow-y: auto;
+}
+body.add-padding {
+	padding: 5px;
+}
+*:focus {
+	outline: 0;
+}
+a:focus {
+	outline: thin dotted #000;
+}
+abbr[title] {
+	border-bottom: 1px dotted #000;
+	cursor: help;
+}
+h1, h2, h3, h4, h5, h6, b, strong {
+	font-weight: bold;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin-top: .2em;
+}
+h1 {
+	font-size: 2em;
+}
+h2 {
+	font-size: 1.8em;
+}
+h3 {
+	font-size: 1.6em;
+}
+h4 {
+	font-size: 1.4em;
+}
+h5 {
+	font-size: 1.2em;
+}
+h6 {
+	font-size: 1.0em;
+}
+p {
+	margin-top: .5em;
+	line-height: 1.2em;
+}
+a {
+	color: #00f;
+	text-decoration: underline;
+}
+a:visited {
+	color: #00a;
+}
+a:active {
+	color: #f00;
+}
+mark {
+	background: #ff0;
+	color: #000;
+}
+hr {
+	border-top: solid 1px #777;
+}
+select, button, input, textarea, .button {
+	min-width: 250px;
+	padding: 5px;
+	font-family: sans-serif;
+	background: #fff;
+	border: solid 1px #777;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-sizing: border-box;
+	margin-top: 2px;
+	line-height: normal;
+	display: inline-block;
+}
+select.max, button.max, input.max, textarea.max, .button.max {
+	display: block;
+	width: 100%;
+}
+button, input[type=submit] {
+	-webkit-appearance: button;
+}
+button:focus, input:focus {
+	box-shadow: 0 0 2px #999;
+	-moz-box-shadow: 0 0 2px #999;
+	-webkit-box-shadow: 0 0 2px #999;
+}
+button, input[type=submit], input[type=button], input[type=reset], select,
+input[type=checkbox], .button {
+	display: inline-block;
+	padding: 5px;
+	cursor: pointer;
+	min-width: inherit;
+	background: #f4f4f4;
+	background: -moz-linear-gradient(top, #f4f4f4 0%, #dbdbdb 50%, #cdcdcd 51%, #e0e0e0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(50%,#dbdbdb), color-stop(51%,#cdcdcd), color-stop(100%,#e0e0e0));
+	background: -webkit-linear-gradient(top, #f4f4f4 0%,#dbdbdb 50%,#cdcdcd 51%,#e0e0e0 100%);
+	background: -o-linear-gradient(top, #f4f4f4 0%,#dbdbdb 50%,#cdcdcd 51%,#e0e0e0 100%);
+	background: -ms-linear-gradient(top, #f4f4f4 0%,#dbdbdb 50%,#cdcdcd 51%,#e0e0e0 100%);
+	background: linear-gradient(to bottom, #f4f4f4 0%,#dbdbdb 50%,#cdcdcd 51%,#e0e0e0 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#e0e0e0',GradientType=0 );
+	color: #000 !important;
+	border-radius: 3px;
+	text-decoration: none;
+	border: 1px solid #777;
+}
+button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus,
+input[type=button]:hover, input[type=button]:focus, input[type=reset]:hover,
+input[type=reset]:focus, .button:hover, .button:focus, .button:active {
+	background: #f6f8f9;
+	background: -moz-linear-gradient(top, #f6f8f9 0%, #e5ebee 50%, #d7dee3 51%, #f5f7f9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f8f9), color-stop(50%,#e5ebee), color-stop(51%,#d7dee3), color-stop(100%,#f5f7f9));
+	background: -webkit-linear-gradient(top, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%);
+	background: -o-linear-gradient(top, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%);
+	background: -ms-linear-gradient(top, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%);
+	background: linear-gradient(to bottom, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=0 );
+}
+select {
+	min-width: 250px;
+}
+textarea {
+	min-height: 100px;
+	overflow: auto;
+}
+input.override-background, select.override-background, button.override-background, .button.override-background {
+	background: #fff;
+}
+input.override-width, select.override-width, button.override-width, textarea.override-width, .button.override-width {
+	min-width: inherit;
+}
+button.override-width, input[type=submit].override-width, input[type=button].override-width,
+input[type=reset].override-width, .button.override-width {
+	min-width: 100px;
+}
+code, kbd, pre, samp {
+	font-family: monospace, serif;
+	font-size: 1em;
+}
+small {
+	font-size: .8em;
+}
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	top: -0.5em;
+}
+sub {
+	bottom: -0.25em;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-left: solid 1px #777;
+	border-top: solid 1px #777;
+	width: 100%;
+}
+table td {
+	padding: 5px;
+	border-right: solid 1px #777;
+	border-bottom: solid 1px #777;
+}
+table.noborder {
+	border: 0;
+}
+table.noborder tr td, table.noborder>thead>td {
+	border-right: 0;
+	border-bottom: 0;
+}
+table thead td {
+	font-weight: bold;
+}
+ul li {
+	margin-left: 35px;
+}
+nav ul li {
+	margin: 0;
+	list-style: none;
+	padding: 0;
+}
+label {
+	cursor: pointer;
+}
+.clear {
+	clear: both;
+}
+.float-left {
+	float: left;
+}
+.float-right {
+	float: right;
+}
