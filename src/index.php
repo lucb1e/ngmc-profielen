@@ -15,6 +15,9 @@
 		if ($_POST["csrf"] != $_SESSION["csrf"])
 			exit;
 	
+	if(!isset($_GET["page"]))
+		$_GET["page"] = "";
+	
 	switch ($_GET["page"]) {
 		case "profielen":
 			require("pages/profielen.php");
