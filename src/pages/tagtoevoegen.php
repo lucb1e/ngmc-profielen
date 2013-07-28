@@ -16,7 +16,7 @@
 				or die("Database error 8392242");
 			
 			if ($result->num_rows > 15) { // Dit limiet moet later misschien worden verlaagd. Het is nu redelijk ruim omdat de meeste tags nog niet bestaan in het begin.
-				echo "Je hebt al een hoop nieuwe tags toegevoegd! Misschien even buiten gaan spelen?";
+				$error = "Je hebt al een hoop nieuwe tags toegevoegd! Misschien even buiten gaan spelen?";
 			}
 			else {
 				$db->query("INSERT INTO tags (naam, door_userid, tijd_toegevoegd)
@@ -27,9 +27,7 @@
 					VALUES (" . intval($_SESSION["profielid"]) . ", " . $db->insert_id . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
 					or die("Database error 1902573");
 				
-				header("HTTP/1.1 302 Moved Temporarily");
-				header("Location: ./?page=mijnprofiel");
-				exit;
+				$done = true;
 			}
 		}
 		else {
@@ -38,18 +36,30 @@
 				or die("Database error 1058921");
 			
 			if ($result->num_rows > 0) {
-				echo "Je hebt deze tag al!";
+				$error = "Je hebt deze tag al!";
 			}
 			else {
 				$db->query("INSERT INTO users_tags (userid, tagid, opmerking)
 					VALUES (" . intval($_SESSION["profielid"]) . ", " . $tagid . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
 					or die("Database error 20473841");
 				
-				header("HTTP/1.1 302 Moved Temporarily");
-				header("Location: ./?page=mijnprofiel");
-				exit;
+				$done = true;
 			}
 		}
+	}
+	
+	/* Huidige tags laden natuurlijk nadat je ze hebt toegevoegd */
+	$result = $db->query("
+		SELECT ut.opmerking, t.naam, ut.id
+		FROM users_tags ut
+		INNER JOIN tags t ON t.id = ut.tagid
+		WHERE ut.userid = " . intval($_SESSION["profielid"]))
+		or die("Database error 8920143");
+	
+	$tags = array();
+	
+	while ($row = $result->fetch_row()) {
+		$tags[] = array("opmerking" => $row[0], "naam" => $row[1], "id" => $row[2]);
 	}
 	
 	require("header.php");
@@ -63,8 +73,32 @@
 
 <h3>Tag toevoegen aan jouw profiel</h3>
 
+<?php
+	if(isset($error)) {
+		echo "<font color=\"red\">" . $error . "</font><br />";
+	}
+	if(isset($done)) {
+		echo "<font color=\"green\">Tag toegevoegd!</font><br />";
+	}
+?>
 <noscript>Deze pagina heeft Javascript nodig. Zet NoScript eens uit.</noscript>
-
+Jouw tags:
+<table>
+	<tr><td><b>Tag</b></td><td><b>Opmerking</b></td><td></td></tr>
+	<?php
+		if (count($tags) == 0) {
+			echo "<tr><td>-</td><td>Je hebt nog geen tags toegevoegd.</td><td></td></tr>";
+		}
+		foreach ($tags as $tag) {
+			$opmerking = empty($tag["opmerking"]) ? "-" : htmlspecialchars($tag["opmerking"]);
+			echo "<tr>";
+			echo "<td>" . htmlspecialchars($tag["naam"]) . "</td>";
+			echo "<td>" . $opmerking . "</td>";
+			echo "<td><a href=\"./?page=mijnprofiel&deletetagid=" . intval($tag["id"]) . "&csrf=" . $_SESSION["csrf"] . "\"><img src=\"res/images/delete.png\" border=\"0\" /></a></td>";
+			echo "</tr>";
+		}
+	?>
+</table><br />
 Tag naam:<br/>
 <input id=tagnaam />
 <div id="gevonden_tags"></div>
@@ -72,7 +106,7 @@ Tag naam:<br/>
 Eventuele opmerking toevoegen:<br/>
 <input id=opmerking /><br/>
 <br/>
-<input type=button value=Toevoegen onclick='toevoegen();'/>
+<input type="submit" value="Toevoegen" onclick="toevoegen();" />
 
 <script>
 	var naam_input = document.getElementById("tagnaam");

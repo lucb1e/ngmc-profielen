@@ -57,7 +57,10 @@
 		<td valign=top width=500 style="padding-left: 25px;" >
 			<?php 
 				while ($row = $users->fetch_array()) {
-					echo "<hr/>";
+					// Voor nu weet ik geen betere oplossing, maar het fixt de [Todo] tenminste.
+					$user_tags = $db->query("SELECT t.naam, t.id, COUNT(ut.id) FROM tags t INNER JOIN users_tags ut ON ut.tagid = t.id AND ut.userid = " . $row["userid"] . " GROUP BY ut.tagid HAVING COUNT(ut.id) > 0 ORDER BY t.naam")
+						or die("Database error 69421337");
+					echo "<hr>";
 					
 					$naam = htmlspecialchars(empty($row["naam"]) ? $row["gebruikersnaam"] : $row["naam"]);
 					if ($row["geboortedatum"] == -1)
@@ -66,8 +69,13 @@
 						$leeftijd = ", " . floor((time() - $row["geboortedatum"]) / (3600 * 24 * 365.25));
 					
 					echo "<div class='user' onclick='showDiv(\"user" . $row["userid"] . "\", this);'>" .
-						$naam . $leeftijd . ". Tags: [todo]" .
-						"<div id='user" . $row["userid"] . "' style='display:none;'>" . 
+						$naam . $leeftijd . ". Tags: ";
+					$first = true;
+					while ($tag = $user_tags->fetch_row()) {
+						echo ($first ? "" : ", ") . $tag[0];
+						$first = false;
+					}
+					echo "<div id='user" . $row["userid"] . "' style='display:none;'>" . 
 							"<span style='font-size: 0.8em;'>Info: " . nl2br(htmlentities($row["bio"])) . "</span>" .
 						"</div>" .
 					"</div>\n";
