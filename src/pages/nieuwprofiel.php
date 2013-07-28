@@ -2,8 +2,11 @@
 	if (!isset($db))
 		exit;
 	
-	session_destroy();
-	unset($_SESSION);
+	if(isIngelogd()) {
+		header("HTTP/1.1 302 Moved Temporarily");
+		header("Location: ./?page=mijnprofiel");
+		exit;
+	}
 	
 	if (isset($_POST["gebruikersnaam"])) {
 		$ok = true;

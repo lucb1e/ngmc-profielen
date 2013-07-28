@@ -10,10 +10,14 @@ Deze website is bedoeld voor leden van <a href="http://www.game-maker.nl">www.ga
 Je kunt hier profielen bekijken van mensen om teamgenoten te zoeken, en natuurlijk je eigen profiel maken. Wat wil je doen?<br/>
 <br/>
 <a href="./?page=profielen">Profielen bekijken</a><br/>
+<?php
+	if(!isIngelogd()) { ?>
 <br/>
 <a href="./?page=inloggen">Inloggen op jouw profiel</a><br/>
 <br/>
-<a href="./?page=nieuwprofiel">Een nieuw profiel aanmaken</a>
+<a href="./?page=nieuwprofiel">Een nieuw profiel aanmaken</a><?php } else { ?>
+<br />
+<a href="./?page=mijnprofiel">Mijn profiel</a><?php } ?>
 
 <?php
 	include("footer.php");

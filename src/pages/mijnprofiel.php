@@ -14,7 +14,7 @@
 			$db->query("UPDATE users SET bio = '" . $db->escape_string($_POST["bio"]) . "', profiel_publiek = '" . intval($_POST["openbaarprofiel"]) . "' WHERE userid = " . intval($_SESSION["profielid"]))
 				or die("Database error 1428592");
 			
-			$message = "<font color=\"green\">Opgeslagen!</font>";
+			$message = "De wijzigingen zijn opgeslagen!";
 		}
 	}
 	
@@ -22,8 +22,8 @@
 		or die("Database error 6510924");
 	
 	$row = $result->fetch_row();
-	$selected_openbaar = $row[0] == 1 ? "selected" : "";
-	$selected_nietopenbaar = $row[0] == 0 ? "selected" : "";
+	$selected_openbaar = $row[0] == 1 ? "selected=\"selected\"" : "";
+	$selected_nietopenbaar = $row[0] == 0 ? "selected=\"selected\"" : "";
 	$bio = htmlspecialchars($row[1]);
 	
 	$result = $db->query("
@@ -42,31 +42,24 @@
 	include("header.php");
 ?>
 <h3>Mijn profiel</h3>
-
 <?php 
 	if (isset($message))
-		echo $message . "<br/><br/>";
+		echo "<div class=\"message green\">" . $message . "</div>";
 ?>
-
-<form method="post" action="./?page=mijnprofiel">
-	<input type=hidden name=csrf value='<?php echo $_SESSION["csrf"];?>' />
-	Je hebt het meeste al in kunnen vullen bij het registreren. Op dit moment is het enkel mogelijk de resterende velden aan te vullen, de mogelijkheid tot de rest bewerken komt later.<br/>
-	<br/>
-	Profiel zichtbaar voor niet-ingelogde gebruikers (aanbevolen):<br/>
-	<select name=openbaarprofiel >
-		<option value=1 <?php echo $selected_openbaar; ?>>Ja</option>
-		<option value=0  <?php echo $selected_nietopenbaar; ?>>Nee</option>
-	</select><br/>
-	<br/>
-	Iets over jezelf:<br/>
-	<textarea name=bio style="width: 100%" rows=10 ><?php echo $bio; ?></textarea><br/>
-	<br/>
-	<input type=submit value=Opslaan /><br/>
-	<br/>
-</form>
-Jouw tags:
+<p>Je hebt het meeste al in kunnen vullen bij het registreren. Op dit moment is het enkel mogelijk de resterende velden aan te vullen, de mogelijkheid tot de rest bewerken komt later.</p>
+<form method="post" action="./?page=mijnprofiel"><tr>
+	<input type="hidden" name="csrf" value="<?=$_SESSION["csrf"] ?>" />
 <table>
-	<tr><td><b>Tag</b></td><td><b>Opmerking</b></td><td></td></tr>
+<tr><td width="30%">Profiel zichtbaar voor niet-ingelogde gebruikers (aanbevolen):</td>
+	<td><select name="openbaarprofiel" class="override-width override-background">
+		<option value="1" <?=$selected_openbaar ?>>Ja</option>
+		<option value="0" <?=$selected_nietopenbaar ?>>Nee</option>
+	</select></td></tr>
+<tr><td>Iets over jezelf:</td>
+	<td><textarea name="bio" class="max" rows="10"><?php echo $bio; ?></textarea></td></tr>
+<tr><td>Jouw tags:</td><td>
+<table>
+	<thead><td>Tag</td><td>Opmerking</td><td></td></thead>
 	<?php
 		if (count($tags) == 0) {
 			echo "<tr><td>-</td><td>Je hebt nog geen tags toegevoegd.</td><td></td></tr>";
@@ -81,7 +74,9 @@ Jouw tags:
 		}
 	?>
 </table>
-<a href="./?page=tagtoevoegen" target="_blank">Tag toevoegen</a>
+<a href="./?page=tagtoevoegen" target="_blank">Tag toevoegen</a></td></tr>
+<tr><td colspan="2"><input type="submit" value="Opslaan" class="float-right override-width"></td></tr></table>
+</form>
 
 <?php
 	include("footer.php");

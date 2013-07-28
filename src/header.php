@@ -16,9 +16,11 @@
 <html>
 	<head>
 		<title>NGMC profielen :: Lucb1e.com</title>
+		<link rel="stylesheet" type="text/css" href="res/css/reset.css">
+		<link rel="stylesheet" type="text/css" href="res/css/style.css">
 	</head>
 	<body>
-		<div style='width: 650px; margin: 0 auto 0 auto; padding-top: 5px;'>
+		<div id="wrapper">
 			<div style="float: right; margin-top: 28px;">
 				<?php echo $menu; ?>
 			</div>

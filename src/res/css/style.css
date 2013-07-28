@@ -1,0 +1,23 @@
+body {
+	background: #eee;
+}
+#wrapper {
+	width: 700px;
+	margin: 50px auto;
+	background: #fff;
+	padding: 50px;
+	border: 1px solid #c4c4c4;
+	border-radius: 10px;
+	box-shadow: 2px 2px 5px #ddd;
+}
+.message {
+	background: #fafafa;
+	padding: 5px;
+	border: 1px solid #d3d3d3;
+	border-radius: 5px;
+}
+.message.green {
+	background: #eefaee;
+	border-color: #ccd3cc;
+	color: #393;
+}
