@@ -14,7 +14,7 @@
 			$db->query("UPDATE users SET bio = '" . $db->escape_string($_POST["bio"]) . "', profiel_publiek = '" . intval($_POST["openbaarprofiel"]) . "' WHERE userid = " . intval($_SESSION["profielid"]))
 				or die("Database error 1428592");
 			
-			$message = "<font color=green >Opgeslagen!</font>";
+			$message = "<font color=\"green\">Opgeslagen!</font>";
 		}
 	}
 	
@@ -33,7 +33,7 @@
 		WHERE ut.userid = " . intval($_SESSION["profielid"]))
 		or die("Database error 8920143");
 	
-	$tags = [];
+	$tags = array();
 	
 	while ($row = $result->fetch_row()) {
 		$tags[] = array("opmerking" => $row[0], "naam" => $row[1], "id" => $row[2]);
@@ -76,12 +76,12 @@ Jouw tags:
 			echo "<tr>";
 			echo "<td>" . htmlspecialchars($tag["naam"]) . "</td>";
 			echo "<td>" . $opmerking . "</td>";
-			echo "<td><a href='./?page=mijnprofiel&deletetagid=" . intval($tag["id"]) . "&csrf=" . $_SESSION["csrf"] . "'><img src='res/images/delete.png' border=0 /></a></td>";
+			echo "<td><a href=\"./?page=mijnprofiel&deletetagid=" . intval($tag["id"]) . "&csrf=" . $_SESSION["csrf"] . "\"><img src=\"res/images/delete.png\" border=\"0\" /></a></td>";
 			echo "</tr>";
 		}
 	?>
 </table>
-<a href="./?page=tagtoevoegen">Tag toevoegen</a>
+<a href="./?page=tagtoevoegen" target="_blank">Tag toevoegen</a>
 
 <?php
 	include("footer.php");
