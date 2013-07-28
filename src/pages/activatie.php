@@ -2,7 +2,7 @@
 	if (!isset($db))
 		exit;
 	
-	if ($_SESSION["profiel_geactiveerd"] == true) {
+	if (isset($_SESSION["profiel_geactiveerD"]) && $_SESSION["profiel_geactiveerd"] == true) {
 		#die("Jouw profiel is al geactiveerd!");
 		header("HTTP/1.1 302 Moved Temporarily");
 		header("Location: ./?page=mijnprofiel&activatie-succesvol");
@@ -19,7 +19,7 @@
 	if ($row[0] == "")
 		die("Jouw profiel is al geactiveerd!");
 	
-	if ($_GET["check"]) {
+	if (isset($_GET["check"])) {
 		if (activate(intval($_GET["profiel"]), $row[0])) {
 			$db->query("UPDATE users SET profielverificatie = '' WHERE userid = " . intval($_GET["profiel"]))
 				or die("Database error 735810");
