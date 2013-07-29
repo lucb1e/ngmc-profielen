@@ -49,15 +49,18 @@
 <p>Je hebt het meeste al in kunnen vullen bij het registreren. Op dit moment is het enkel mogelijk de resterende velden aan te vullen, de mogelijkheid tot de rest bewerken komt later.</p>
 <form method="post" action="./?page=mijnprofiel"><tr>
 	<input type="hidden" name="csrf" value="<?=$_SESSION["csrf"] ?>" />
-<table>
-<tr><td width="30%">Profiel zichtbaar voor niet-ingelogde gebruikers (aanbevolen):</td>
+<table class="noborder">
+<tr><td width="40%">Profiel zichtbaar voor niet-ingelogde gebruikers (aanbevolen):</td>
 	<td><select name="openbaarprofiel" class="override-width override-background">
 		<option value="1" <?=$selected_openbaar ?>>Ja</option>
 		<option value="0" <?=$selected_nietopenbaar ?>>Nee</option>
 	</select></td></tr>
 <tr><td>Iets over jezelf:</td>
 	<td><textarea name="bio" class="max" rows="10"><?php echo $bio; ?></textarea></td></tr>
-<tr><td>Jouw tags:</td><td>
+<tr><td colspan="2"><input type="submit" value="Opslaan" class="float-right override-width"></td></tr></table>
+</form>
+<h3>Mijn tags</h3>
+<p>Hieronder staan jouw tags. Tags beschrijven korte, maar kenmerkende eigenschappen die jou maken wie je bent. Tags kunnen bijvoorbeeld PHP, CSS en HTML, maar ook Creatief, Slim en Sociaal zijn.</p>
 <table>
 	<thead><td>Tag</td><td>Opmerking</td><td></td></thead>
 	<?php
@@ -74,10 +77,8 @@
 		}
 	?>
 </table>
-<a href="./?page=tagtoevoegen" target="_blank">Tag toevoegen</a></td></tr>
-<tr><td colspan="2"><input type="submit" value="Opslaan" class="float-right override-width"></td></tr></table>
-</form>
-
+<a href="./?page=tagtoevoegen" class="button float-right">Tag toevoegen</a>
+<div class="clear"></div>
 <?php
 	include("footer.php");
 ?>

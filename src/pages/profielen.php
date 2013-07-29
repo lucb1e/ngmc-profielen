@@ -30,60 +30,56 @@
 		cursor: crosshair;
 	}
 </style>
-<h3>Profielen</h3>
-<table>
-	<tr>
-		<td width=150 bgcolor="#dadada" >
-			<b><i>Filter</i></b><br/>
-			<br/>
-			<b>Naam</b><br/>
-			<input id=naam /><br/>
-			<br/>
-			<b>Leeftijd</b><br/>
-			Van <input value=0 size=2 /> tot <input size=2 value=99 /><br/>
-			<br/>
-			<b>Tags</b><br/>
-			<?php 
-				while ($tag = $tags->fetch_row()) {
-					echo "<a href='javascript: filterTag(" . $tag[1] . ");'>" . $tag[0] . " (" . $tag[2] . ")</a><br/>";
+<div id="profielen">
+	<div id="profielen-filter">
+		<h3>Filter</h3>
+		<p><b>Naam</b></p>
+		<input id="naam" class="max">
+		<p><b>Leeftijd</b></p>
+		Van <input value="0" size="2" type="number" min="0" max="99" class="override-width">
+		tot <input value="99" size="2" type="number" min="0" max="99" class="override-width"> jaar.
+		<p><b>Tags</b></p>
+		<ul class="no-listing"><?php 
+			while ($tag = $tags->fetch_row()) {
+				echo "<li><a href='javascript: filterTag(" . $tag[1] . ");'>" . $tag[0] . " (" . $tag[2] . ")</a></li>";
+			}
+		?></ul>
+		<p><b>Locatie</b></p>
+		Binnen <input value="40" size="2" type="number" min="0" max="1000" id="straal" class="override-width"> kilometer.
+		<p><img src="res/images/benelux.png" id="kaart" /></p>
+		<div id="locatie-output"></div>
+	</div>
+	<div id="profielen-result">
+		<h3>Resultaten</h3>
+		<p>Klik op een resultaat om meer info te zien!</p>
+		<?php 
+			while ($row = $users->fetch_array()) {
+				// Voor nu weet ik geen betere oplossing, maar het fixt de [Todo] tenminste.
+				$user_tags = $db->query("SELECT t.naam, t.id, COUNT(ut.id) FROM tags t INNER JOIN users_tags ut ON ut.tagid = t.id AND ut.userid = " . $row["userid"] . " GROUP BY ut.tagid HAVING COUNT(ut.id) > 0 ORDER BY t.naam")
+					or die("Database error 69421337");
+				
+				$naam = htmlspecialchars(empty($row["naam"]) ? $row["gebruikersnaam"] : $row["naam"]);
+				if ($row["geboortedatum"] == -1)
+					$leeftijd = "";
+				else
+					$leeftijd = ", " . floor((time() - $row["geboortedatum"]) / (3600 * 24 * 365.25));
+				
+				echo "<div class=\"user\" onclick='showDiv(\"user" . $row["userid"] . "\", this);'>" .
+					$naam . $leeftijd . ". Tags: ";
+				$first = true;
+				while ($tag = $user_tags->fetch_row()) {
+					echo ($first ? "" : ", ") . $tag[0];
+					$first = false;
 				}
-			?>
-			<br/>
-			<b>Locatie</b><br/>
-			Binnen <input value=40 size=2 id=straal />km<br/>
-			<img src="res/images/benelux.png" style="width: 100%" id="kaart" />
-			<div id="locatie-output"></div>
-		</td>
-		<td valign=top width=500 style="padding-left: 25px;" >
-			<?php 
-				while ($row = $users->fetch_array()) {
-					// Voor nu weet ik geen betere oplossing, maar het fixt de [Todo] tenminste.
-					$user_tags = $db->query("SELECT t.naam, t.id, COUNT(ut.id) FROM tags t INNER JOIN users_tags ut ON ut.tagid = t.id AND ut.userid = " . $row["userid"] . " GROUP BY ut.tagid HAVING COUNT(ut.id) > 0 ORDER BY t.naam")
-						or die("Database error 69421337");
-					echo "<hr>";
-					
-					$naam = htmlspecialchars(empty($row["naam"]) ? $row["gebruikersnaam"] : $row["naam"]);
-					if ($row["geboortedatum"] == -1)
-						$leeftijd = "";
-					else
-						$leeftijd = ", " . floor((time() - $row["geboortedatum"]) / (3600 * 24 * 365.25));
-					
-					echo "<div class='user' onclick='showDiv(\"user" . $row["userid"] . "\", this);'>" .
-						$naam . $leeftijd . ". Tags: ";
-					$first = true;
-					while ($tag = $user_tags->fetch_row()) {
-						echo ($first ? "" : ", ") . $tag[0];
-						$first = false;
-					}
-					echo "<div id='user" . $row["userid"] . "' style='display:none;'>" . 
-							"<span style='font-size: 0.8em;'>Info: " . nl2br(htmlentities($row["bio"])) . "</span>" .
-						"</div>" .
-					"</div>\n";
-				}
-			?>			
-		</td>
-	</tr>
-</table>
+				echo "<div id='user" . $row["userid"] . "' style='display:none;'>" . 
+						"<span style='font-size: 0.8em;'>Info: " . nl2br(htmlentities($row["bio"])) . "</span>" .
+					"</div>" .
+				"</div>\n";
+			}
+		?>
+	</div>
+</div>
+<div class="clear"></div>
 <script src="res/js/kaartlocatie.js"></script>
 <script>
 	var filters = {

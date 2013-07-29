@@ -89,12 +89,6 @@ a {
 	color: #00f;
 	text-decoration: underline;
 }
-a:visited {
-	color: #00a;
-}
-a:active {
-	color: #f00;
-}
 mark {
 	background: #ff0;
 	color: #000;
@@ -115,6 +109,9 @@ select, button, input, textarea, .button {
 	margin-top: 2px;
 	line-height: normal;
 	display: inline-block;
+}
+.button:hover {
+	text-decoration: none !important;
 }
 select.max, button.max, input.max, textarea.max, .button.max {
 	display: block;
@@ -201,6 +198,7 @@ table {
 	border-left: solid 1px #777;
 	border-top: solid 1px #777;
 	width: 100%;
+	margin-top: .5em;
 }
 table td {
 	padding: 5px;
@@ -220,7 +218,7 @@ table thead td {
 ul li {
 	margin-left: 35px;
 }
-nav ul li {
+nav ul li , ul.no-listing li{
 	margin: 0;
 	list-style: none;
 	padding: 0;

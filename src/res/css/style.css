@@ -10,14 +10,94 @@ body {
 	border-radius: 10px;
 	box-shadow: 2px 2px 5px #ddd;
 }
-.message {
+
+#header {
+	padding-bottom: 20px;
+}
+
+#logo {
+	float: left;
+	width: 375px;
+	height: 48px;
+}
+#menu {
+	float: right;
+}
+
+h3 {
+	font-size: 16pt;
+	font-weight: 600;
+	border: 1px solid #d3d3d3;
+	background: #fafafa;
+	border-radius: 0 5px 5px 0;
+	color: #7c7c7c;
+	padding: 5px 20px 5px 50px;
+	margin-left: -51px;
+	padding-left: 50px;
+	margin-top: .5em;
+}
+
+#profielen {
+	
+}
+#profielen-filter {
+	float: left;
+	width: 308px;
+}
+#profielen-filter h3 {
+	border-right: 0;
+	border-radius: 0;
+}
+#profielen-result {
+	float: right;
+	width: 372px;
+	padding-left: 20px;
+}
+#profielen-result h3 {
+	border-left: 0;
+	border-radius: 0 5px 5px 0;
+	color: #7c7c7c;
+	padding: 5px 50px 5px 20px;
+	margin-left: -20px;
+	margin-top: .5em;
+}
+#profielen-result .user {
 	background: #fafafa;
 	padding: 5px;
 	border: 1px solid #d3d3d3;
 	border-radius: 5px;
 }
+
+a {
+	color: #333;
+	text-decoration: none;
+	color: #529bff;
+}
+a:hover {
+	color: #529bff;
+	text-decoration: underline;
+}
+
+.message {
+	background: #fafafa;
+	padding: 5px;
+	border: 1px solid #d3d3d3;
+	border-radius: 5px;
+	margin-top: .5em;
+}
 .message.green {
 	background: #eefaee;
 	border-color: #ccd3cc;
 	color: #393;
+}
+.message.red {
+	background: #faeeee;
+	border-color: #d3cccc;
+	color: #933;
+}
+table.login {
+	width: 500px;
+}
+table.login td {
+	width: 200px !important;
 }

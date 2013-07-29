@@ -45,14 +45,14 @@
 
 <?php
 	if (isset($message))
-		echo $message . "<br/><br/>";
+		echo '<div class="message red">' . $message . '</div>';
 ?>
 
 <form method="post" action="./?page=inloggen">
-	<table>
-		<tr><td>Gebruikersnaam:</td><td><input name=gebruikersnaam /></td></tr>
-		<tr><td>Wachtwoord:</td><td><input type=password name=wachtwoord /></td></tr>
-		<tr><td><input type=submit value=Inloggen /></td><td></td></tr>
+	<table class="noborder login">
+		<tr><td>Gebruikersnaam:</td><td><input name="gebruikersnaam" class="max"/></td></tr>
+		<tr><td>Wachtwoord:</td><td><input type="password" name="wachtwoord" class="max" /></td></tr>
+		<tr><td></td><td><input type="submit" value="Inloggen" /></td></tr>
 	</table>
 </form>
 Wachtwoord vergeten? Stuur een PB naar <a href='http://www.game-maker.nl/forums/action,pm/sa,send/u,4823'>lucb1e</a>.

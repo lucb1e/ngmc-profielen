@@ -122,6 +122,7 @@
 			
 			$_SESSION["profiel_geactiveerd"] = false;
 			$_SESSION["profielid"] = $userid;
+			$_SESSION["csrf"] = myhash(rand() . myhash(myhash($_POST["wachtwoord"]) . rand()));
 			
 			header("HTTP/1.1 302 Moved Temporarily");
 			header("Location: ./?page=activatie&profiel=" . $userid);
@@ -130,24 +131,27 @@
 	}
 	
 	include("header.php");
-	
+?>
+<h3>Registreren</h3>
+<?php
 	if (!empty($message))
-		echo $message . "<br/><br/>";
+		echo '<div class="message red">' . $message . '</div>';
 ?>
 <form method="post" action="./?page=nieuwprofiel">
-	<table>
-		<tr><td><b>Gebruikersnaam:</b></td><td><input name=gebruikersnaam /></td></tr>
-		<tr><td><b>Echte naam:</b></td><td><input name=naam /> (optioneel)</td></td></tr>
+	<table class="noborder">
+		<tr><td width="50%"><b>Gebruikersnaam:</b></td><td><input name=gebruikersnaam class=max /></td></tr>
+		<tr><td colspan=2>Let op: Je gebruikersnaam moet hetzelfde zijn als op www.game-maker.nl!</td></tr>
+		<tr><td><b>Echte naam:</b></td><td><input name=naam class=max /> (optioneel)</td></td></tr>
 		<!--<tr><td><b>Gebruikersid:</b></td><td><input name=userid size=5 /></td></tr>
 		<tr>
 			<td colspan=2 >Je gebruikersid kun je vinden door naar <a href='http://www.game-maker.nl/forums/action,profile' target='_blank'>deze pagina te gaan</a>
 			en dan links op statistieken te klikken. In de adresbalk staat iets als "u,12345", waar 12345 jouw gebruikersid is.<br/>
 			<br/></td>
 		</tr>-->
-		<tr><td><b>Wachtwoord:</b></td><td><input type=password name=wachtwoord /></td></tr>
+		<tr><td><b>Wachtwoord:</b></td><td><input type=password name=wachtwoord class=max /></td></tr>
 		<tr><td valign=top ><b>Geboortedatum</b></td>
-			<td><input name=geboortedag size=2 value=1 />
-				<select name=geboortemaand >
+			<td><input name=geboortedag size=2 value=1 class=override-width />
+				<select name=geboortemaand class="override-width override-background" >
 					<option value=0 >Januari</option>
 					<option value=1 >Februari</option>
 					<option value=2 >Maart</option>
@@ -161,13 +165,12 @@
 					<option value=10 >November</option>
 					<option value=11 >December</option>
 				</select>
-				<input name=geboortejaar size=4 value="19.." onfocus="value.indexOf('.')==2 ? value = '' : '';" /><br/>
-				Optioneel, maar vul wel je geboortejaar in, dan hebben we enig idee of je 10 of 28 bent!<br/><br/>
+				<input name=geboortejaar size=4 value="19.." onfocus="value.indexOf('.')==2 ? value = '' : '';" class=override-width /><br/>
+				Optioneel, maar vul wel je geboortejaar in, dan hebben we enig idee of je 10 of 28 bent!
 			</td>
 		</tr>
 		<tr>
 			<td valign=top >
-				<br/>
 				<b>Locatie</b><br/>
 				<br/>
 				Klik op de kaart!<br/>
@@ -179,9 +182,6 @@
 				<div id="locatie-output"><a href='javascript: nietInNederland();'>Niet in Nederland/Belgi&euml;</a></div>
 			</td>
 		</tr>
-		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2>Let op: Je gebruikersnaam moet hetzelfde zijn als op www.game-maker.nl!</td></tr>
-		<tr><td colspan=2>&nbsp;</td></tr>
 		<tr><td><input type=submit value=Registreren /></td><td></td></tr>
 	</table>
 	

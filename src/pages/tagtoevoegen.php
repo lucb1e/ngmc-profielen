@@ -40,7 +40,7 @@
 			}
 			else {
 				$db->query("INSERT INTO users_tags (userid, tagid, opmerking)
-					VALUES (" . intval($_SESSION["profielid"]) . ", " . $tagid . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
+					VALUES (" . intval($_SESSION["profielid"]) . ", " . $tagid[0] . ", '" . $db->escape_string($_GET["opmerking"]) . "')")
 					or die("Database error 20473841");
 				
 				$done = true;
@@ -71,18 +71,17 @@
 	}
 </style>
 
-<h3>Tag toevoegen aan jouw profiel</h3>
-
+<h3>Huidige tags</h3>
 <?php
 	if(isset($error)) {
-		echo "<font color=\"red\">" . $error . "</font><br />";
+		echo "<div class=\"message red\">" . $error . "</div>";
 	}
 	if(isset($done)) {
-		echo "<font color=\"green\">Tag toegevoegd!</font><br />";
+		echo "<div class=\"message green\">Tag toegevoegd!</div>";
 	}
 ?>
-<noscript>Deze pagina heeft Javascript nodig. Zet NoScript eens uit.</noscript>
-Jouw tags:
+<noscript><p>Deze pagina heeft Javascript nodig. Zet NoScript eens uit.</p></noscript>
+<p><p>Hieronder staan jouw tags. Tags beschrijven korte, maar kenmerkende eigenschappen die jou maken wie je bent. Tags kunnen bijvoorbeeld PHP, CSS en HTML, maar ook Creatief, Slim en Sociaal zijn.</p>
 <table>
 	<tr><td><b>Tag</b></td><td><b>Opmerking</b></td><td></td></tr>
 	<?php
@@ -98,14 +97,15 @@ Jouw tags:
 			echo "</tr>";
 		}
 	?>
-</table><br />
-Tag naam:<br/>
-<input id=tagnaam />
+</table>
+<a href="./?page=mijnprofiel" class="button float-right">Terug naar mijn profiel</a><div class="clear"></div>
+<h3>Tag toevoegen</h3>
+<p>Hier kun je een nieuwe tag toevoegen.</p>
+<p>Naam van de tag:</p>
+<input id="tagnaam" class="max" />
 <div id="gevonden_tags"></div>
-<br/>
-Eventuele opmerking toevoegen:<br/>
-<input id=opmerking /><br/>
-<br/>
+<p>Eventuele opmerking toevoegen:</p>
+<input id="opmerking" class="max" />
 <input type="submit" value="Toevoegen" onclick="toevoegen();" />
 
 <script>
